@@ -10,11 +10,11 @@ albedo_color = Color(0.421178, 0.225155, 0.639116, 1)
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_ago61"]
 
-[node name="Node3D" type="Node3D"]
+[node name="Game" type="Node3D"]
 script = ExtResource("1_8xiqq")
 
 [node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 7.40175)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2.29384)
 
 [node name="WorldBox" type="Node3D" parent="."]
 
@@ -32,3 +32,8 @@ mesh = SubResource("SphereMesh_ly03a")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Player/CharacterBody3D"]
 shape = SubResource("SphereShape3D_ago61")
+
+[node name="Score" type="Label" parent="."]
+offset_right = 40.0
+offset_bottom = 23.0
+text = " 0"

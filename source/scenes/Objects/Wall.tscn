@@ -1,22 +1,24 @@
-[gd_scene load_steps=5 format=3 uid="uid://chh5xrhiqbpvd"]
+[gd_scene load_steps=5 format=3 uid="uid://bn6x2wy4rpsvd"]
 
-[ext_resource type="Script" path="res://scripts/StageBox.cs" id="1_pmoxr"]
+[ext_resource type="Script" path="res://scenes/Objects/Wall.cs" id="1_fdp5x"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_67wfy"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_xvjq7"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fjym0"]
-albedo_color = Color(0.196342, 0.468373, 0.893992, 1)
+albedo_color = Color(0.691971, 0.0364824, 0.261413, 1)
 
-[node name="StageBox" type="Node3D"]
-script = ExtResource("1_pmoxr")
+[node name="Wall" type="Node3D"]
+script = ExtResource("1_fdp5x")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="."]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
 shape = SubResource("BoxShape3D_67wfy")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 0.5, 0, 0, 0)
 mesh = SubResource("BoxMesh_xvjq7")
 surface_material_override/0 = SubResource("StandardMaterial3D_fjym0")
