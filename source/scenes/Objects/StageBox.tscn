@@ -2,21 +2,20 @@
 
 [ext_resource type="Script" path="res://scripts/StageBox.cs" id="1_pmoxr"]
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_67wfy"]
-
 [sub_resource type="BoxMesh" id="BoxMesh_xvjq7"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fjym0"]
-albedo_color = Color(0.196342, 0.468373, 0.893992, 1)
+albedo_color = Color(0, 0, 0, 1)
 
-[node name="StageBox" type="Node3D"]
+[sub_resource type="BoxShape3D" id="BoxShape3D_67wfy"]
+
+[node name="StageBox" type="StaticBody3D"]
+collision_layer = 4
 script = ExtResource("1_pmoxr")
-
-[node name="StaticBody3D" type="StaticBody3D" parent="."]
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
-shape = SubResource("BoxShape3D_67wfy")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 mesh = SubResource("BoxMesh_xvjq7")
 surface_material_override/0 = SubResource("StandardMaterial3D_fjym0")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape3D_67wfy")

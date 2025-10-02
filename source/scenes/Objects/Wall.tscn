@@ -9,16 +9,14 @@
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fjym0"]
 albedo_color = Color(0.691971, 0.0364824, 0.261413, 1)
 
-[node name="Wall" type="Node3D"]
+[node name="Wall" type="RigidBody3D"]
+collision_layer = 2
+gravity_scale = 0.0
 script = ExtResource("1_fdp5x")
 
-[node name="StaticBody3D" type="StaticBody3D" parent="."]
-transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("BoxShape3D_67wfy")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 0.5, 0, 0, 0)
 mesh = SubResource("BoxMesh_xvjq7")
 surface_material_override/0 = SubResource("StandardMaterial3D_fjym0")

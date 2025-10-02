@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public partial class Wall : Node3D{
+public partial class Wall : RigidBody3D{
 	private Game game;
 	private float end_zone;
 	private float movement_speed;
@@ -15,9 +15,12 @@ public partial class Wall : Node3D{
 		is_init = true;
 	}
 	
-	public override void _Process(double delta){
+	public override void _PhysicsProcess(double delta){
 		if(is_init){
-			Position = new Vector3(Position.X,Position.Y, Position.Z + (movement_speed * (float)delta));
+			
+			LinearVelocity = new Vector3(0,0,1) * movement_speed ;
+
+			//MoveAndSlide();
 			if(Position.Z > end_zone){
 				game.inc_score(SCORE);
 				QueueFree();

@@ -1,15 +1,18 @@
 using Godot;
 using System;
+using Godot.Collections;
 
 public partial class Game : Node3D{
-	
 	const int AMOUNT_CUBES_IN_LINE = 7;
 	const int DEPTH_BOX = 15;
 	const float CUBE_SIZE = 1f;
 	Label score;
+	int score_value = 0;
 	PackedScene CubeScene = (PackedScene)ResourceLoader.Load("res://scenes/Objects/StageBox.tscn");
 	PackedScene WallScene = (PackedScene)ResourceLoader.Load("res://scenes/Objects/Wall.tscn");
-	Node3D player;
+	PlayerSC player;
+	
+	private StageBox[,,] map = new StageBox[4,AMOUNT_CUBES_IN_LINE, DEPTH_BOX];
 	
 	private static readonly char[] SIDES = {'N','S','W','E'};
 	private static Vector3 player_base_position;
@@ -32,18 +35,22 @@ public partial class Game : Node3D{
 					
 					switch(s){
 						case 'N':
+							map[0,row_idx,i] = sb;
 							x = row_idx* CUBE_SIZE + (float)(AMOUNT_CUBES_IN_LINE - 1) * (-half_cube);
 							y = offset+half_cube;
 							break;
 						case 'S':
+							map[1,row_idx,i] = sb;
 							x = row_idx* CUBE_SIZE + (float)(AMOUNT_CUBES_IN_LINE - 1) * (-half_cube);
 							y = -offset-half_cube;
 							break;
 						case 'W':
+							map[2,row_idx,i] = sb;
 							y = row_idx* CUBE_SIZE + (float)(AMOUNT_CUBES_IN_LINE - 1) * (-half_cube);
 							x = -offset-half_cube;
 							break;
 						case 'E':
+							map[3,row_idx,i] = sb;
 							y = row_idx* CUBE_SIZE + (float)(AMOUNT_CUBES_IN_LINE - 1) * (-half_cube);
 							x = offset+half_cube;
 							break;
@@ -57,13 +64,15 @@ public partial class Game : Node3D{
 	}
 	
 	public override void _Ready(){
+		
 		generate_map();
-		score = GetNode<Label>("Score");
 		z_spawn_position = (-DEPTH_BOX) * CUBE_SIZE;
 		enemy_base_position = new Vector3(player_base_position.X,player_base_position.Y,z_spawn_position);
 		rng.Randomize();
 		
-		player = GetNode<Node3D>("Player");
+		score = GetNode<Label>("Score");
+		player = GetNode<PlayerSC>("Player");
+		player.init(map);
 		player.GlobalPosition = player_base_position;
 	}
 /*
@@ -85,7 +94,8 @@ StageBox sb = (StageBox)CubeScene.Instantiate();
 	}
 	
 	public void inc_score(int v){
-		score.Text = " "+v;
+		score_value += v;
+		score.Text = " "+score_value;
 	}
 	
 	private void create_wall(){
