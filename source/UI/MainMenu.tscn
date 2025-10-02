@@ -1,0 +1,42 @@
+[gd_scene load_steps=2 format=3 uid="uid://b6u82gjei5qvr"]
+
+[ext_resource type="Script" uid="uid://d1i6gw412n273" path="res://UI/MainMenu.cs" id="1_uahxu"]
+
+[node name="MainMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_uahxu")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -76.5
+offset_top = -45.0
+offset_right = 76.5
+offset_bottom = 45.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Play" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "Play"
+
+[node name="Settings" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "Settings"
+
+[node name="Quit" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "Quit"
+
+[connection signal="pressed" from="VBoxContainer/Play" to="." method="OnPlayPressed"]
+[connection signal="pressed" from="VBoxContainer/Settings" to="." method="OnSettingsPressed"]
+[connection signal="pressed" from="VBoxContainer/Quit" to="." method="OnQuitPressed"]

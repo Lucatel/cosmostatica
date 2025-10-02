@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public partial class Wall : RigidBody3D{
+public partial class Wall : CharacterBody3D{
 	private Game game;
 	private float end_zone;
 	private float movement_speed;
@@ -17,11 +17,20 @@ public partial class Wall : RigidBody3D{
 	
 	public override void _PhysicsProcess(double delta){
 		if(is_init){
-			
-			LinearVelocity = new Vector3(0,0,1) * movement_speed ;
 
-			//MoveAndSlide();
-			if(Position.Z > end_zone){
+			Velocity = new Vector3(0,0,1)*movement_speed;
+
+			KinematicCollision3D collision = MoveAndCollide(Velocity * (float)delta);
+			if (collision != null)
+			{
+				if (collision.GetCollider() is PlayerSC)
+				{
+					game.game_over();
+				}
+			}
+			
+			if (Position.Z > end_zone)
+			{
 				game.inc_score(SCORE);
 				QueueFree();
 			}

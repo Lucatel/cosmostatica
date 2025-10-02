@@ -1,7 +1,8 @@
-[gd_scene load_steps=6 format=3 uid="uid://decirqmxna63a"]
+[gd_scene load_steps=7 format=3 uid="uid://decirqmxna63a"]
 
-[ext_resource type="Script" path="res://scripts/Game.cs" id="1_8xiqq"]
-[ext_resource type="Script" path="res://scripts/PlayerSC.cs" id="3_q3bp3"]
+[ext_resource type="Script" uid="uid://bmwqs3gtd1qxy" path="res://scripts/Game.cs" id="1_8xiqq"]
+[ext_resource type="PackedScene" uid="uid://bibn1k4mwlo0y" path="res://UI/GameOver.tscn" id="3_lnu2h"]
+[ext_resource type="Script" uid="uid://cdlkkm1d1iebd" path="res://scripts/PlayerSC.cs" id="3_q3bp3"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_ago61"]
 
@@ -40,3 +41,6 @@ shape = SubResource("SphereShape3D_ago61")
 material_override = SubResource("StandardMaterial3D_faks7")
 mesh = SubResource("SphereMesh_ly03a")
 skeleton = NodePath("")
+
+[node name="GameOver" parent="." instance=ExtResource("3_lnu2h")]
+visible = false

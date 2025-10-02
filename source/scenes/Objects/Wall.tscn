@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://bn6x2wy4rpsvd"]
 
-[ext_resource type="Script" path="res://scenes/Objects/Wall.cs" id="1_fdp5x"]
+[ext_resource type="Script" uid="uid://783vm4kfpo5l" path="res://scenes/Objects/Wall.cs" id="1_fdp5x"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_67wfy"]
 
@@ -9,9 +9,8 @@
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fjym0"]
 albedo_color = Color(0.691971, 0.0364824, 0.261413, 1)
 
-[node name="Wall" type="RigidBody3D"]
+[node name="Wall" type="CharacterBody3D"]
 collision_layer = 2
-gravity_scale = 0.0
 script = ExtResource("1_fdp5x")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
