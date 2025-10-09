@@ -4,14 +4,15 @@ using Godot.Collections;
 
 public partial class Game : Node3D{
 	const int AMOUNT_CUBES_IN_LINE = 7;
-	const int DEPTH_BOX = 15;
+	const int DEPTH_BOX = 20;
 	const float CUBE_SIZE = 1f;
 	Label score;
-	int score_value = 0;
+	private int score_value = 0;
 	PackedScene CubeScene = (PackedScene)ResourceLoader.Load("res://scenes/Objects/StageBox.tscn");
 	PackedScene WallScene = (PackedScene)ResourceLoader.Load("res://scenes/Objects/Wall.tscn");
 	PlayerSC player;
 	Control gameOver;
+	private float wall_speed = 8f;
 
 	private StageBox[] boxes_near_player = new StageBox[ AMOUNT_CUBES_IN_LINE * 4];
 	private static int box_near_player_by_idx = -1;
@@ -88,14 +89,20 @@ public partial class Game : Node3D{
 						mat.AlbedoColor = new Color(1, 0, 0);
 	*/
 	private float elapsed_time = 0f;
-	private float waiting_time = 1f;
+	private float waiting_time = 1.3f;
 
 	public override void _Process(double delta){
 		elapsed_time += (float)delta;
 		update_env_colors();
 		
 		if (elapsed_time > waiting_time){
-			create_wall();
+			if(score_value < 10){
+				create_wall(1);
+			}else if(score_value < 100){
+				create_wall(2);
+			}else{
+				create_wall(3);
+			}
 			elapsed_time = 0;
 		}
 	}
@@ -105,21 +112,32 @@ public partial class Game : Node3D{
 		score.Text = " " + score_value;
 	}
 
-	private void create_wall(){
-		bool is_down = rng.Randi() % 2 == 0;
-		bool is_up = rng.Randi() % 2 == 0;
-
-		Wall w = (Wall)WallScene.Instantiate();
-		Vector3 pos = enemy_base_position;
-		if (is_down) pos.Y *= (-1);
-		if (is_up) pos.X *= (-1);
-		w.init(pos, 0f, 4f, this);
-		//MeshInstance3D mesh = sb.GetNode<MeshInstance3D>("MeshInstance3D");
-		//StandardMaterial3D mat = mesh.GetSurfaceOverrideMaterial(0) as StandardMaterial3D;
-		//mesh.SetSurfaceOverrideMaterial(0, mat);
-		//mat.AlbedoColor = new Color(1, 0, 0);
-		AddChild(w);
-
+	private void create_wall(int layer_amount){
+		if(layer_amount>3 || layer_amount<0) layer_amount=1;
+		int[] positions = {0,1,2,3};
+		
+		for(int n=0;n<positions.Length;n++)
+		for(int i=1;i<positions.Length;i++){
+			if(rng.Randi() % 2 == 0){
+				(positions[i-1], positions[i]) = (positions[i], positions[i-1]);
+			}
+		}
+		
+		for(int i=0;i<layer_amount;i++){
+			Wall w = (Wall)WallScene.Instantiate();
+			Vector3 pos = enemy_base_position;
+			
+			if(positions[i] < 2) pos.Y *= (-1);
+			if(positions[i] % 2 == 0) pos.X *= (-1);
+			
+			w.init(pos, 0f, wall_speed, this);
+			//MeshInstance3D mesh = sb.GetNode<MeshInstance3D>("MeshInstance3D");
+			//StandardMaterial3D mat = mesh.GetSurfaceOverrideMaterial(0) as StandardMaterial3D;
+			//mesh.SetSurfaceOverrideMaterial(0, mat);
+			//mat.AlbedoColor = new Color(1, 0, 0);
+			AddChild(w);
+		}
+		
 	}
 
 	public void game_over(){

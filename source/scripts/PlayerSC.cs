@@ -7,7 +7,7 @@ public partial class PlayerSC : CharacterBody3D{
 	private bool is_moving = false;
 	private Vector3 destination;
 	private Vector3 step_vector;
-	private const float SPEED = 12f;
+	private const float SPEED = 15f;
 	private int last_moving_cube_idx = -2, current_moving_cube_idx = -1;
 	
 	public bool is_player_moving(){return is_moving;}
