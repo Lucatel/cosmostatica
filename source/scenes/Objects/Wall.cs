@@ -21,16 +21,13 @@ public partial class Wall : CharacterBody3D{
 			Velocity = new Vector3(0,0,1)*movement_speed;
 
 			KinematicCollision3D collision = MoveAndCollide(Velocity * (float)delta);
-			if (collision != null)
-			{
-				if (collision.GetCollider() is PlayerSC)
-				{
+			if (collision != null){
+				if (collision.GetCollider() is PlayerSC){
 					game.game_over();
 				}
 			}
 			
-			if (Position.Z > end_zone)
-			{
+			if (Position.Z > end_zone){
 				game.inc_score(SCORE);
 				QueueFree();
 			}

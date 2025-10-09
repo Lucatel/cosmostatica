@@ -12,7 +12,7 @@ config_version=5
 
 config/name="Cosmostatics"
 run/main_scene="uid://b6u82gjei5qvr"
-config/features=PackedStringArray("4.4", "C#")
+config/features=PackedStringArray("4.5", "C#")
 config/icon="res://icon.svg"
 
 [dotnet]

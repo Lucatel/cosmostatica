@@ -4,15 +4,15 @@ using System;
 public partial class PlayerSC : CharacterBody3D{
 
 	private bool is_init = false;
-	private StageBox[,,] map_ref;
 	private bool is_moving = false;
 	private Vector3 destination;
 	private Vector3 step_vector;
 	private const float SPEED = 12f;
-	private int current_moving_cube_idx = -1;
+	private int last_moving_cube_idx = -2, current_moving_cube_idx = -1;
 	
-	public void init(StageBox[,,] map){
-		map_ref = map;
+	public bool is_player_moving(){return is_moving;}
+	
+	public void init(){
 		is_init = true;
 	}
 	
@@ -46,9 +46,9 @@ public partial class PlayerSC : CharacterBody3D{
 
 			KinematicCollision3D collision = MoveAndCollide(nextStep - Position);
 			if(collision != null)
-				GD.Print(collision);
+				//GD.Print(collision);
 			
-			if(current_moving_cube_idx == -1){
+			if(Position.X != last_moving_cube_idx){
 				
 			}
 			
