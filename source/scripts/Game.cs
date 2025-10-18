@@ -9,10 +9,10 @@ public partial class Game : Node3D{
 	Label score;
 	private int score_value = 0;
 	PackedScene CubeScene = (PackedScene)ResourceLoader.Load("res://scenes/Objects/StageBox.tscn");
-	PackedScene WallScene = (PackedScene)ResourceLoader.Load("res://scenes/Objects/Wall.tscn");
 	PlayerSC player;
 	Control gameOver;
-	private float wall_speed = 8f;
+	
+	private SpawnManager spawner;
 
 	private StageBox[] boxes_near_player = new StageBox[ AMOUNT_CUBES_IN_LINE * 4];
 	private static int box_near_player_by_idx = -1;
@@ -21,7 +21,7 @@ public partial class Game : Node3D{
 	private static Vector3 player_base_position;
 	private static Vector3 enemy_base_position;
 	private static float z_spawn_position;
-	private static RandomNumberGenerator rng = new RandomNumberGenerator();
+	
 
 	private void generate_map(){
 		float offset = (float)AMOUNT_CUBES_IN_LINE * CUBE_SIZE / 2f;
@@ -72,39 +72,20 @@ public partial class Game : Node3D{
 		generate_map();
 		z_spawn_position = (-DEPTH_BOX) * CUBE_SIZE;
 		enemy_base_position = new Vector3(player_base_position.X, player_base_position.Y, z_spawn_position);
-		rng.Randomize();
+		
 
 		score = GetNode<Label>("Score");
 		player = GetNode<PlayerSC>("Player");
 		gameOver = GetNode<GameOver>("GameOver");
 		player.init();
 		player.GlobalPosition = player_base_position;
-		
+		spawner = new SpawnManager();		
+		spawner.init(this, enemy_base_position);
 	}
-	/*
-	StageBox sb = (StageBox)CubeScene.Instantiate();
-						MeshInstance3D mesh = sb.GetNode<MeshInstance3D>("MeshInstance3D");
-						StandardMaterial3D mat = mesh.GetSurfaceOverrideMaterial(0) as StandardMaterial3D;
-						mesh.SetSurfaceOverrideMaterial(0, mat);
-						mat.AlbedoColor = new Color(1, 0, 0);
-	*/
-	private float elapsed_time = 0f;
-	private float waiting_time = 1.3f;
 
 	public override void _Process(double delta){
-		elapsed_time += (float)delta;
 		update_env_colors();
-		
-		if (elapsed_time > waiting_time){
-			if(score_value < 10){
-				create_wall(1);
-			}else if(score_value < 100){
-				create_wall(2);
-			}else{
-				create_wall(3);
-			}
-			elapsed_time = 0;
-		}
+		spawner.update(delta, score_value);
 	}
 
 	public void inc_score(int v){
@@ -112,33 +93,7 @@ public partial class Game : Node3D{
 		score.Text = " " + score_value;
 	}
 
-	private void create_wall(int layer_amount){
-		if(layer_amount>3 || layer_amount<0) layer_amount=1;
-		int[] positions = {0,1,2,3};
-		
-		for(int n=0;n<positions.Length;n++)
-		for(int i=1;i<positions.Length;i++){
-			if(rng.Randi() % 2 == 0){
-				(positions[i-1], positions[i]) = (positions[i], positions[i-1]);
-			}
-		}
-		
-		for(int i=0;i<layer_amount;i++){
-			Wall w = (Wall)WallScene.Instantiate();
-			Vector3 pos = enemy_base_position;
-			
-			if(positions[i] < 2) pos.Y *= (-1);
-			if(positions[i] % 2 == 0) pos.X *= (-1);
-			
-			w.init(pos, 0f, wall_speed, this);
-			//MeshInstance3D mesh = sb.GetNode<MeshInstance3D>("MeshInstance3D");
-			//StandardMaterial3D mat = mesh.GetSurfaceOverrideMaterial(0) as StandardMaterial3D;
-			//mesh.SetSurfaceOverrideMaterial(0, mat);
-			//mat.AlbedoColor = new Color(1, 0, 0);
-			AddChild(w);
-		}
-		
-	}
+	
 
 	public void game_over(){
 		GD.Print("Game Over");

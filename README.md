@@ -12,7 +12,10 @@ Objects moving against player:
 - wall
 
 ## Todo
-- generating map-box
-- player moving animation
 - menu
-
+- improve glowing effect
+- enemy object also having glowing
+- player death animation
+- score saving
+- sound?
+- credits?
